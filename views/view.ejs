@@ -12,6 +12,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,6 +20,14 @@
                 <tr>
                     <td><%= data[i].name %></td>
                     <td><%= data[i].email %></td>
+
+                    <td>
+                   
+                        <form action="/delete" method="post">
+                            <input type="hidden" name="id" id="id" value="<%= data[i]._id %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
                 </tr>
                 <% } %>
             </tbody>

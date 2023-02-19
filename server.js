@@ -121,7 +121,7 @@ app.get('/view', function(req,res){
             console.log(err);
         }
         else{
-            console.log(docs);
+            console.log("success");
             res.render("view", {
                 data: docs,
               });
@@ -129,4 +129,18 @@ app.get('/view', function(req,res){
     });
     // console.log(ryu)
 })
+
+
+app.post('/delete', function(req, res){
+    // res.send(req.body.id);
+
+    testSchema.deleteOne({ _id: req.body.id}).then(function(){
+        console.log("Data deleted"); // Success
+        res.redirect('/view')
+     }).catch(function(error){
+        console.log(error); // Failure
+     });
+})
+
+
 
