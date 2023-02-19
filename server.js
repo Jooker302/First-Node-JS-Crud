@@ -65,11 +65,15 @@ app.listen('3000', function(){
     // console.log('test')
 })
 
+app.get('/',function(req,res){
+    res.redirect('/view')
+})
+
 
 // Form page / Main Page
-app.get('/', function(req,res){
+app.get('/create', function(req,res){
     // console.log("test get request")
-    res.sendFile(__dirname + '/index.html')
+    res.sendFile(__dirname + '/views/index.html')
 })
 
 
@@ -77,7 +81,7 @@ app.get('/', function(req,res){
 app.post('/submit', function(req,res){
     // res.send(req.body)
     saveCharacter(req.body)
-    .then(doc => { res.send("Success") })
+    .then(doc => { res.redirect('/view') })
     .catch(error => { console.error(error) })
     
     // const savedata = new testSchema(req.body)
@@ -142,5 +146,29 @@ app.post('/delete', function(req, res){
      });
 })
 
+app.get('/edit/:id',function(req,res){
+    // res.send(req.params.id);
+    testSchema.findOne({_id : req.params.id}, function(err, docs){
+        if(err){
+            console.log(err)
+        }else{
+            // res.send(docs);
+            // console.log(docs)
+            res.render("update", {
+                data: docs,
+            })
+        }
+    })
+})
 
+app.post('/update',function(req,res){
+    testSchema.updateOne({ _id: req.body.id }, { name: req.body.name, email: req.body.email }, (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+        //   console.log(result);
+            res.redirect("/view")
+        }
+      });
+})
 
